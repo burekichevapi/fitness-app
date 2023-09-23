@@ -56,10 +56,3 @@ const Home = () => {
 }
 
 export default Home;
-
-/*
-
-Cannot read properties of undefined (reading 'email')
-TypeError: Cannot read properties of undefined (reading 'email')
-    at http://localhost:3000/static/js/bundle.js:173:34
-*/
