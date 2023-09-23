@@ -55,7 +55,7 @@ const Home = () => {
         </div>
       </nav>
     </>
-  )
+  );
 }
 
 export default Home;
