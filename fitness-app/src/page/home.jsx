@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup } from 'firebase/auth';
@@ -6,12 +6,14 @@ import { auth, provider } from '../firebase';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState("");
 
   const handleLogout = () => {
     signOut(auth).then(() => {
       // Sign-out successful.
+      setCurrentUser("");
       navigate("/");
-      console.log("Signed out successfully")
+      console.log("Signed out successfully");
     }).catch((error) => {
       // An error happened.
     });
@@ -23,7 +25,8 @@ const Home = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigate("/home")
+        setCurrentUser(user.displayName);
+        navigate("/")
         console.log(user);
       })
       .catch((error) => {
@@ -37,7 +40,7 @@ const Home = () => {
     <>
       <nav>
         <p>
-          Welcome Home
+          Welcome Home {currentUser}
         </p>
 
         <div>
