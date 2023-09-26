@@ -3,7 +3,7 @@ import Home from "./page/home";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 
-function App() {
+const App = () => {
   return (
     <Router>
       <div>
