@@ -17,7 +17,7 @@ const Home = () => {
     }).catch((error) => {
       // An error happened.
     });
-  }
+  };
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ const Home = () => {
         // Signed in
         const user = userCredential.user;
         setCurrentUser(user.displayName);
-        navigate("/")
+        navigate("/");
         console.log(user);
       })
       .catch((error) => {
@@ -56,6 +56,6 @@ const Home = () => {
       </nav>
     </>
   );
-}
+};
 
 export default Home;
