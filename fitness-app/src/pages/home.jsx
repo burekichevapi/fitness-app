@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../services/firebase-service';
+import { getAllExercises } from '../services/exercises-service';
 
 const Home = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState("");
+  const [exercises, setExercises] = useState([]);
 
   const handleLogout = () => {
     signOut(auth).then(() => {
@@ -18,6 +20,18 @@ const Home = () => {
       // An error happened.
     });
   };
+
+  useEffect(() => {
+    const timeOutId = setTimeout(async () => {
+      console.log("fetching exercises");
+      const e = await getAllExercises();
+      setExercises(e);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timeOutId);
+    };
+  }, []);
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
@@ -34,7 +48,7 @@ const Home = () => {
         const errorMessage = error.message;
         console.log(errorCode, errorMessage)
       });
-  }
+  };
 
   return (
     <>
@@ -54,6 +68,19 @@ const Home = () => {
           </button>
         </div>
       </nav>
+      <div>
+        {exercises.map((e) => <div key={e.id}>
+          bodyPart: {e.bodyPart}<br />
+          equipment: {e.equipment}<br />
+          gifUrl: {e.gifUrl}<br />
+          id {e.id}<br />
+          name: {e.name}<br />
+          target: {e.target}<br />
+          secondaryMuscles: {e.secondaryMuscles}<br />
+          instructions: {e.instructions}<br />
+          <br />
+        </div>)}
+      </div>
     </>
   );
 };

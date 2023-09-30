@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA1HWaKkjLiFnmPPLnsr9B5lAgg4k3lIro",
+  apiKey: process.env.REACT_APP_FIRE_BASE_API_KEY,
   authDomain: "finess-app-9bc2b.firebaseapp.com",
   projectId: "finess-app-9bc2b",
   storageBucket: "finess-app-9bc2b.appspot.com",
