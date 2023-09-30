@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup } from 'firebase/auth';
-import { auth, provider } from '../services/firebase';
+import { auth, provider } from '../services/firebase-service';
 
 const Home = () => {
   const navigate = useNavigate();
