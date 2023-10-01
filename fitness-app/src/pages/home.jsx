@@ -69,15 +69,16 @@ const Home = () => {
         </div>
       </nav>
       <div>
-        {exercises.map((e) => <div key={e.id}>
-          bodyPart: {e.bodyPart}<br />
-          equipment: {e.equipment}<br />
-          gifUrl: {e.gifUrl}<br />
-          id {e.id}<br />
-          name: {e.name}<br />
-          target: {e.target}<br />
-          secondaryMuscles: {e.secondaryMuscles}<br />
-          instructions: {e.instructions}<br />
+        {exercises.map((exercise, number) => <div key={exercise.id}>
+          number: {number} <br />
+          bodyPart: {exercise.bodyPart}<br />
+          equipment: {exercise.equipment}<br />
+          gifUrl: {exercise.gifUrl}<br />
+          id {exercise.id}<br />
+          name: {exercise.name}<br />
+          target: {exercise.target}<br />
+          secondaryMuscles: {exercise.secondaryMuscles}<br />
+          instructions: {exercise.instructions}<br />
           <br />
         </div>)}
       </div>

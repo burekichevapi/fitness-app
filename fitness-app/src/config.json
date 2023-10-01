@@ -1,3 +1,4 @@
 {
+  "useLocalData": true,
   "exercisesApiEndpoint": "https://exercisedb.p.rapidapi.com"
 }
