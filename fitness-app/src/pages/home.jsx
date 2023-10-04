@@ -3,7 +3,7 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../services/firebase-service';
-import { getAllExercises } from '../services/exercises-service';
+import { getAllExercises, getExercisesByBodyPart } from '../services/exercises-service';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,7 +24,9 @@ const Home = () => {
   useEffect(() => {
     const timeOutId = setTimeout(async () => {
       console.log("fetching exercises");
-      const e = await getAllExercises();
+      //const e = getAllExercises();
+      const e = getExercisesByBodyPart("back");
+      console.log("rendering:", e);
       setExercises(e);
     }, 5000);
 
@@ -69,8 +71,8 @@ const Home = () => {
         </div>
       </nav>
       <div>
-        {exercises.map((exercise, number) => <div key={exercise.id}>
-          number: {number} <br />
+        {exercises.map((exercise, index) => <div key={exercise.id}>
+          index: {index} <br />
           bodyPart: {exercise.bodyPart}<br />
           equipment: {exercise.equipment}<br />
           gifUrl: {exercise.gifUrl}<br />
