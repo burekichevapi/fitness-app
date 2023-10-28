@@ -5,7 +5,7 @@ import { getVideoUrl } from '../services/youtube-service';
 
 const ExerciseCard = ({ exercise }) => {
   const [videoUrl, setVideoUrl] = useState(null);
-  const [loading, setLoading] = useState(true); // Introduce loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getId = async () => {
@@ -31,7 +31,7 @@ const ExerciseCard = ({ exercise }) => {
         <Card.Text className='m-2 text-sm'>
           {exercise.instructions}
         </Card.Text>
-        {loading ? ( // Display spinner while loading is true
+        {loading ? (
           <Spinner animation="border" role="status" />
         ) : (
           <Card.Link href={videoUrl} target='_blank' rel="noreferrer">
