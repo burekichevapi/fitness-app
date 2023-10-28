@@ -1,6 +1,7 @@
 import Card from 'react-bootstrap/Card';
 
 const ExerciseCard = ({ exercise }) => {
+
   return (
     <Card className='m-1'>
       <Card.Img variant="top" src={exercise.gifUrl} />
@@ -9,8 +10,7 @@ const ExerciseCard = ({ exercise }) => {
         <Card.Text className='m-2 text-sm'>
           {exercise.instructions}
         </Card.Text>
-        <Card.Link href="#">Card Link</Card.Link>
-        <Card.Link href="#">Card Link</Card.Link>
+        <Card.Link href={`https://www.youtube.com`}>Watch Youtube Video</Card.Link>
       </Card.Body>
     </Card>
   );

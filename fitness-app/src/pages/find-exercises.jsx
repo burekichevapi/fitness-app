@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { getExercisesByBodyPart } from "../services/exercises-service";
 import ExerciseCard from "../components/exerciseCard";
+import { getVideoForExercise } from "../services/youtube-service";
 
 const FindExercises = () => {
   const [exercises, setExercises] = useState([]);
-  const [maxResults, setMaxResults] = useState(9);
+  const [maxResults, setMaxResults] = useState(1);
   const [checkboxBodyParts, setCheckboxBodyParts] = useState([
     { name: "all", checked: false },
     { name: "cardio", checked: false },
@@ -18,6 +19,8 @@ const FindExercises = () => {
     { name: "upperArms", checked: false },
     { name: "upperLegs", checked: false },
   ]);
+
+  // getVideoForExercise("back");
 
   const findSelectedExercises = useCallback((checkboxes) => {
     let exerciseResults = [];
@@ -66,11 +69,10 @@ const FindExercises = () => {
                     value={maxResults}
                     onChange={handleChangeMaxResult}
                   >
+                    <option value={1}>1</option>
+                    <option value={4}>5</option>
                     <option value={9}>10</option>
-                    <option value={24}>25</option>
-                    <option value={49}>50</option>
-                    <option value={99}>100</option>
-                    <option value={149}>150</option>
+                    <option value={14}>15</option>
                   </select>
                 </div>
               </div>

@@ -9,7 +9,6 @@ import NavbarItems from "./sideNavbarItems";
 import NavbarHeader from "./sideNavbarHeader";
 import "./sideNavbar.css";
 
-
 const NavBar = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState("");
