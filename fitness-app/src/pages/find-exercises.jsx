@@ -74,22 +74,22 @@ const FindExercises = () => {
                   </select>
                 </div>
               </div>
-              <div className="col-md-6">
-                <div className="form-check form-check-column">
-                  {checkboxBodyParts.map((checkbox, index) => (
-                    <div className="form-check" key={index}>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        checked={checkbox.checked}
-                        onChange={() => handleCheckboxChange(index)}
-                      />
-                      <label className="form-check-label">{checkbox.name}</label>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </form>
+          </div>
+          <div className="col-md-6">
+            <div className="form-check form-check-column">
+              {checkboxBodyParts.map((checkbox, index) => (
+                <div className="form-check" key={index}>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={checkbox.checked}
+                    onChange={() => handleCheckboxChange(index)}
+                  />
+                  <label className="form-check-label">{checkbox.name}</label>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="row">
