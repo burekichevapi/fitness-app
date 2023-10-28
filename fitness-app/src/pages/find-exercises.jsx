@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getExercisesByBodyPart } from "../services/exercises-service";
 import ExerciseCard from "../components/exerciseCard";
+import { useCallback } from "react";
 
 const FindExercises = () => {
   const [exercises, setExercises] = useState([]);
-  const [maxResults, setMaxResults] = useState(10);
+  const [maxResults, setMaxResults] = useState(9);
   const [checkboxBodyParts, setCheckboxBodyParts] = useState([
     { name: "all", checked: false },
     { name: "cardio", checked: false },
@@ -19,31 +20,41 @@ const FindExercises = () => {
     { name: "upperLegs", checked: false },
   ]);
 
-  const handleCheckboxChange = (index) => {
-    const updatedCheckboxes = [...checkboxBodyParts];
-    updatedCheckboxes[index].checked = !updatedCheckboxes[index].checked;
-
-    if (updatedCheckboxes[index].name === "all") {
-      updatedCheckboxes.forEach(check => {
-        if (check.name !== "all") check.checked = false
-      });
-    }
-    else updatedCheckboxes[0].checked = false;
-
+  const findSelectedExercises = useCallback((checkboxes) => {
     let exerciseResults = [];
 
-    updatedCheckboxes.filter((c) => c.checked).forEach((checkbox) => {
+    checkboxes.filter((c) => c.checked).forEach((checkbox) => {
       const bodyPart = getExercisesByBodyPart(checkbox.name, maxResults);
       exerciseResults = exerciseResults.concat(bodyPart);
     });
 
     setExercises(exerciseResults);
-    setCheckboxBodyParts(updatedCheckboxes);
-  };
+  }, [maxResults]);
+
+  useEffect(() => {
+    findSelectedExercises([...checkboxBodyParts]);
+  }, [checkboxBodyParts, maxResults, findSelectedExercises]);
 
   const handleChangeMaxResult = (event) => {
-    const selectedValue = parseInt(event.target.value, 10);
-    setMaxResults(selectedValue);
+    const max = parseInt(event.target.value, 10);
+    setMaxResults(max);
+  };
+
+  const updateCheckboxes = (checkboxes, index) => {
+    checkboxes[index].checked = !checkboxes[index].checked;
+
+    if (checkboxes[index].name === "all") {
+      checkboxes.forEach(check => {
+        if (check.name !== "all") check.checked = false
+      });
+    }
+    else checkboxes[0].checked = false;
+  };
+
+  const handleCheckboxChange = (index) => {
+    const updatedCheckboxes = [...checkboxBodyParts];
+    updateCheckboxes(updatedCheckboxes, index);
+    setCheckboxBodyParts(updatedCheckboxes);
   };
 
   return (
@@ -61,11 +72,11 @@ const FindExercises = () => {
                     value={maxResults}
                     onChange={handleChangeMaxResult}
                   >
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                    <option value={150}>150</option>
+                    <option value={9}>10</option>
+                    <option value={24}>25</option>
+                    <option value={49}>50</option>
+                    <option value={99}>100</option>
+                    <option value={149}>150</option>
                   </select>
                 </div>
               </div>
