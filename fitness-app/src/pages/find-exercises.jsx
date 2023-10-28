@@ -11,7 +11,7 @@ const FindExercises = () => {
     { name: "chest", checked: false },
     { name: "back", checked: false },
     { name: "neck", checked: false },
-    { name: "wait", checked: false },
+    { name: "waist", checked: false },
     { name: "shoulders", checked: false },
     { name: "lowerArms", checked: false },
     { name: "lowerLegs", checked: false },
@@ -28,16 +28,16 @@ const FindExercises = () => {
         if (check.name !== "all") check.checked = false
       });
     }
+    else updatedCheckboxes[0].checked = false;
 
-    let result = [];
+    let exerciseResults = [];
 
     updatedCheckboxes.filter((c) => c.checked).forEach((checkbox) => {
       const bodyPart = getExercisesByBodyPart(checkbox.name, maxResults);
-      result = result.concat(bodyPart);
+      exerciseResults = exerciseResults.concat(bodyPart);
     });
-    console.log(result);
 
-    setExercises(result);
+    setExercises(exerciseResults);
     setCheckboxBodyParts(updatedCheckboxes);
   };
 
@@ -47,40 +47,54 @@ const FindExercises = () => {
   };
 
   return (
-    <div className="">
-      <div>
-        <h2>
-          Find Exercises
-        </h2>
-        {checkboxBodyParts.map((checkbox, index) => (
-          <label key={index}>
-            <input
-              type="checkbox"
-              checked={checkbox.checked}
-              onChange={() => handleCheckboxChange(index)}
-            />
-            {checkbox.name}
-          </label>
-        ))}
-      </div>
-      <div>
-        <label>Max results:</label>
-        <select value={maxResults} onChange={handleChangeMaxResult}>
-          <option value={10}>10</option>
-          <option value={25}>25</option>
-          <option value={50}>50</option>
-          <option value={100}>100</option>
-          <option value={150}>150</option>
-        </select>
-      </div>
-
-      {
-        exercises.map((exercise) => {
-          return <div key={exercise.id}>
-            <ExerciseCard exercise={exercise} />
+    <div>
+      <div className="container mt-5">
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <h2>Find Exercises</h2>
+            <form className="row">
+              <div className="col-md-6 mb-3">
+                <div className="form-group">
+                  <label>Max results:</label>
+                  <select
+                    className="form-control"
+                    value={maxResults}
+                    onChange={handleChangeMaxResult}
+                  >
+                    <option value={10}>10</option>
+                    <option value={25}>25</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                    <option value={150}>150</option>
+                  </select>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-check form-check-column">
+                  {checkboxBodyParts.map((checkbox, index) => (
+                    <div className="form-check" key={index}>
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        checked={checkbox.checked}
+                        onChange={() => handleCheckboxChange(index)}
+                      />
+                      <label className="form-check-label">{checkbox.name}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </form>
           </div>
-        })
-      }
+        </div>
+        <div className="row">
+          {exercises.map((exercise) => (
+            <div key={exercise.id} className="col-md-4 mb-4">
+              <ExerciseCard exercise={exercise} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

@@ -3,11 +3,11 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../../services/firebase-service';
-import "./sideNavbar.css";
 import LoginButton from "../loginButton";
 import LogoutButton from '../logoutButton';
 import NavbarItems from "./sideNavbarItems";
 import NavbarHeader from "./sideNavbarHeader";
+import "./sideNavbar.css";
 
 
 const NavBar = () => {
