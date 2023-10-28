@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getExercisesByBodyPart } from "../services/exercises-service";
 import ExerciseCard from "../components/exerciseCard";
-import { useCallback } from "react";
 
 const FindExercises = () => {
   const [exercises, setExercises] = useState([]);
@@ -35,25 +34,20 @@ const FindExercises = () => {
     findSelectedExercises([...checkboxBodyParts]);
   }, [checkboxBodyParts, maxResults, findSelectedExercises]);
 
-  const handleChangeMaxResult = (event) => {
-    const max = parseInt(event.target.value, 10);
-    setMaxResults(max);
-  };
-
-  const updateCheckboxes = (checkboxes, index) => {
-    checkboxes[index].checked = !checkboxes[index].checked;
-
-    if (checkboxes[index].name === "all") {
-      checkboxes.forEach(check => {
-        if (check.name !== "all") check.checked = false
-      });
-    }
-    else checkboxes[0].checked = false;
-  };
+  const handleChangeMaxResult = (e) =>
+    setMaxResults(parseInt(e.target.value, 10));
 
   const handleCheckboxChange = (index) => {
     const updatedCheckboxes = [...checkboxBodyParts];
-    updateCheckboxes(updatedCheckboxes, index);
+    updatedCheckboxes[index].checked = !updatedCheckboxes[index].checked;
+
+    if (updatedCheckboxes[index].name === "all") {
+      updatedCheckboxes.forEach(check => {
+        if (check.name !== "all") check.checked = false
+      });
+    }
+    else updatedCheckboxes[0].checked = false;
+
     setCheckboxBodyParts(updatedCheckboxes);
   };
 
