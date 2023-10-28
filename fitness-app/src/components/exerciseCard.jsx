@@ -1,6 +1,27 @@
+import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
+import Spinner from 'react-bootstrap/Spinner';
+import { getVideoUrl } from '../services/youtube-service';
 
 const ExerciseCard = ({ exercise }) => {
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [loading, setLoading] = useState(true); // Introduce loading state
+
+  useEffect(() => {
+    const getId = async () => {
+      try {
+        const url = await getVideoUrl(exercise.name);
+        setVideoUrl(url);
+      } catch (error) {
+        console.error('Error fetching video URL: ', error);
+        setVideoUrl(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getId();
+  }, [exercise.name]);
 
   return (
     <Card className='m-1'>
@@ -10,7 +31,13 @@ const ExerciseCard = ({ exercise }) => {
         <Card.Text className='m-2 text-sm'>
           {exercise.instructions}
         </Card.Text>
-        <Card.Link href={`https://www.youtube.com`}>Watch Youtube Video</Card.Link>
+        {loading ? ( // Display spinner while loading is true
+          <Spinner animation="border" role="status" />
+        ) : (
+          <Card.Link href={videoUrl} target='_blank' rel="noreferrer">
+            Watch Youtube Video
+          </Card.Link>
+        )}
       </Card.Body>
     </Card>
   );

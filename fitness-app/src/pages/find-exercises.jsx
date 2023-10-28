@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { getExercisesByBodyPart } from "../services/exercises-service";
 import ExerciseCard from "../components/exerciseCard";
-import { getVideoForExercise } from "../services/youtube-service";
 
 const FindExercises = () => {
   const [exercises, setExercises] = useState([]);
@@ -19,8 +18,6 @@ const FindExercises = () => {
     { name: "upperArms", checked: false },
     { name: "upperLegs", checked: false },
   ]);
-
-  // getVideoForExercise("back");
 
   const findSelectedExercises = useCallback((checkboxes) => {
     let exerciseResults = [];
