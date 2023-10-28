@@ -49,7 +49,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+    <div className={`sidebar ${isOpen ? 'open' : ''} bg-transparent`}>
       <button className="toggle-btn" onClick={toggleSidebar}>
         ☰
       </button>
@@ -66,7 +66,7 @@ const NavBar = () => {
 
         <NavbarHeader />
         <div className="media-body">
-          <p className="m-2 text-light">Welcome, {currentUser}</p>
+          <p className="m-2 text-light">Welcome {currentUser}</p>
         </div>
       </div >
       <NavbarItems />
