@@ -15,7 +15,11 @@ const NavBar = () => {
   const [currentUser, setCurrentUser] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSidebar = () => setIsOpen(!isOpen);
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+    const body = document.body;
+    body.classList.toggle("sidebar-open");
+  };
 
   const handleLogout = () => {
     signOut(auth).then(() => {

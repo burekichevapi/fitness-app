@@ -36,3 +36,11 @@
   border: none;
   color: white;
 }
+
+.content {
+  transition: margin-left 0.3s ease; /* Add transition effect for smooth movement */
+}
+
+.sidebar-open .content {
+  margin-left: 250px; /* Same value as sidebar width */
+}
