@@ -69,9 +69,7 @@ const NavBar = () => {
           <p className="m-2 text-light">Welcome, {currentUser}</p>
         </div>
       </div >
-
       <NavbarItems />
-
     </div >
   );
 };
