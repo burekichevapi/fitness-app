@@ -9,17 +9,16 @@ const headers = {
 };
 
 export const getAllExercises = async (max) => {
-  try {
-    if (config.useLocalData) {
-      const data = localData.exercises.slice(0, max - 1);
-      return data;
-    }
+  if (config.useLocalData) {
+    const data = localData.exercises.slice(0, max - 1);
+    return data;
+  }
 
+  try {
     const { data } = await Http.get(
       `${config.exercisesApiEndpoint}/exercises`,
       { headers, params: { limit: max.toString() } }
     );
-
     return data;
   } catch (error) {
     console.error(error);
@@ -29,19 +28,18 @@ export const getAllExercises = async (max) => {
 export const getExercisesByBodyPart = async (bodyPart, max) => {
   if (bodyPart === "all") return await getAllExercises(max);
 
-  try {
-    if (config.useLocalData) {
-      const data = localData.exercises
-        .filter((exercise) => exercise.bodyPart === bodyPart)
-        .slice(0, max - 1);
-      return data;
-    }
+  if (config.useLocalData) {
+    const data = localData.exercises
+      .filter((exercise) => exercise.bodyPart === bodyPart)
+      .slice(0, max - 1);
+    return data;
+  }
 
+  try {
     const { data } = await Http.get(
       `${config.exercisesApiEndpoint}/exercises/bodyPart/${bodyPart}`,
       { headers, params: { limit: max.toString() } }
     );
-
     return data;
   } catch (error) {
     console.error(error);
