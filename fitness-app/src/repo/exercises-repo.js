@@ -10,7 +10,7 @@ const headers = {
 
 export const getAllExercises = async (max) => {
   if (config.useLocalData) {
-    const data = localData.exercises.slice(0, max - 1);
+    const data = localData.exercises.slice(0, max);
     return data;
   }
 
@@ -31,7 +31,7 @@ export const getExercisesByBodyPart = async (bodyPart, max) => {
   if (config.useLocalData) {
     const data = localData.exercises
       .filter((exercise) => exercise.bodyPart === bodyPart)
-      .slice(0, max - 1);
+      .slice(0, max);
     return data;
   }
 

@@ -62,7 +62,7 @@ const FindExercises = () => {
             <form className="row">
               <div className="col-md-6 mb-3">
                 <div className="form-group">
-                  <label>Max results:</label>
+                  <label>number of exercises for each selected:</label>
                   <select
                     className="form-control"
                     value={maxResults}
