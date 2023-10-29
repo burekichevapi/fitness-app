@@ -13,10 +13,10 @@ const FindExercises = () => {
     { name: "neck", checked: false },
     { name: "waist", checked: false },
     { name: "shoulders", checked: false },
-    { name: "lowerArms", checked: false },
-    { name: "lowerLegs", checked: false },
-    { name: "upperArms", checked: false },
-    { name: "upperLegs", checked: false },
+    { name: "upper legs", checked: false },
+    { name: "lower legs", checked: false },
+    { name: "upper arms", checked: false },
+    { name: "lower arms", checked: false },
   ]);
 
   const findSelectedExercises = useCallback(async (checkboxes) => {
