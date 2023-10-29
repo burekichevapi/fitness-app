@@ -19,13 +19,15 @@ const FindExercises = () => {
     { name: "upperLegs", checked: false },
   ]);
 
-  const findSelectedExercises = useCallback((checkboxes) => {
+  const findSelectedExercises = useCallback(async (checkboxes) => {
     let exerciseResults = [];
 
-    checkboxes.filter((c) => c.checked).forEach((checkbox) => {
-      const bodyPart = getExercisesByBodyPart(checkbox.name, maxResults);
+    const checkedBoxes = checkboxes.filter((c) => c.checked);
+
+    for (const box of checkedBoxes) {
+      const bodyPart = await getExercisesByBodyPart(box.name, maxResults);
       exerciseResults = exerciseResults.concat(bodyPart);
-    });
+    }
 
     setExercises(exerciseResults);
   }, [maxResults]);
