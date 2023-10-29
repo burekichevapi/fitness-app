@@ -1,9 +1,8 @@
-import request from "axios";
+import { Http } from "./http-service";
 
 export const getVideoUrl = async (exerciseName) => {
   const options = {
     method: "GET",
-    url: "https://youtube-search-results.p.rapidapi.com/youtube-search/",
     params: { q: `${exerciseName} exercise` },
     headers: {
       "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
@@ -12,11 +11,13 @@ export const getVideoUrl = async (exerciseName) => {
   };
 
   try {
-    const response = await request(options);
-    console.log(
-      `https://www.youtube.com/watch?v=${response.data.videos[0].id}`
+    const response = await Http.get(
+      "https://youtube-search-results.p.rapidapi.com/youtube-search/",
+      options
     );
-    return `https://www.youtube.com/watch?v=${response.data.videos[0].id}`;
+
+    console.log(response.data.videos[0].link);
+    return response.data.videos[0].link;
   } catch (error) {
     console.error(error);
   }
