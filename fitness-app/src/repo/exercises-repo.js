@@ -1,5 +1,5 @@
 import localData from "../fixtures/exercise-data.json";
-import { Http } from "../services/http-service";
+import { Http } from "./http";
 import config from "../config.json";
 
 const headers = {
@@ -8,10 +8,10 @@ const headers = {
   "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
 };
 
-export const getAllExercises = async (max = 10) => {
+export const getAllExercises = async (max) => {
   try {
     if (config.useLocalData) {
-      const data = localData.exercises.slice(0, max);
+      const data = localData.exercises.slice(0, max - 1);
       return data;
     }
 
@@ -26,12 +26,24 @@ export const getAllExercises = async (max = 10) => {
   }
 };
 
-export const getExercisesByBodyPart = async (bodyPart, max = 10) => {
+export const getExercisesByBodyPart = async (bodyPart, max) => {
   if (bodyPart === "all") return await getAllExercises(max);
 
-  const data = localData.exercises
-    .filter((exercise) => exercise.bodyPart === bodyPart)
-    .slice(0, max);
+  try {
+    if (config.useLocalData) {
+      const data = localData.exercises
+        .filter((exercise) => exercise.bodyPart === bodyPart)
+        .slice(0, max - 1);
+      return data;
+    }
 
-  return data;
+    const { data } = await Http.get(
+      `${config.exercisesApiEndpoint}/exercises/bodyPart/${bodyPart}`,
+      { headers, params: { limit: max.toString() } }
+    );
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };

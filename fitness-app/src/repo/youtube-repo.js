@@ -1,4 +1,4 @@
-import { Http } from "../services/http-service";
+import { Http } from "./http";
 import config from "../config.json";
 
 const headers = {
@@ -14,6 +14,10 @@ export const getVideoUrl = async (exerciseName) => {
   };
 
   try {
+    if (config.useLocalData) {
+      return "https://youtube.com";
+    }
+
     const response = await Http.get(
       `${config.youtubeSearchApiEndpoint}/youtube-search/`,
       options
