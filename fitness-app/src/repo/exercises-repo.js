@@ -1,8 +1,9 @@
 import localData from "../fixtures/exercise-data.json";
-import { Http } from "./http-service";
+import { Http } from "../services/http-service";
 import config from "../config.json";
 
 const headers = {
+  method: "GET",
   "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
   "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
 };
@@ -16,7 +17,7 @@ export const getAllExercises = async (max = 10) => {
 
     const { data } = await Http.get(
       `${config.exercisesApiEndpoint}/exercises`,
-      { method: "GET", headers, params: { limit: max.toString() } }
+      { headers, params: { limit: max.toString() } }
     );
 
     return data;

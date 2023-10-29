@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { getExercisesByBodyPart } from "../services/exercises-service";
+import { getExercisesByBodyPart } from "../repo/exercises-repo";
 import ExerciseCard from "../components/exerciseCard";
 
 const FindExercises = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
-import { getVideoUrl } from '../services/youtube-service';
+import { getVideoUrl } from '../repo/youtube-repo';
 
 const ExerciseCard = ({ exercise }) => {
   const [videoUrl, setVideoUrl] = useState(null);

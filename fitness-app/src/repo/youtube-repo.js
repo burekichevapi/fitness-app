@@ -1,18 +1,21 @@
-import { Http } from "./http-service";
+import { Http } from "../services/http-service";
+import config from "../config.json";
+
+const headers = {
+  method: "GET",
+  "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
+  "X-RapidAPI-Host": "youtube-search-results.p.rapidapi.com",
+};
 
 export const getVideoUrl = async (exerciseName) => {
   const options = {
-    method: "GET",
     params: { q: `${exerciseName} exercise` },
-    headers: {
-      "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
-      "X-RapidAPI-Host": "youtube-search-results.p.rapidapi.com",
-    },
+    headers,
   };
 
   try {
     const response = await Http.get(
-      "https://youtube-search-results.p.rapidapi.com/youtube-search/",
+      `${config.youtubeSearchApiEndpoint}/youtube-search/`,
       options
     );
 
