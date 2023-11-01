@@ -6,7 +6,6 @@ const FindExercises = () => {
   const [exercises, setExercises] = useState([]);
   const [maxResults, setMaxResults] = useState(1);
   const [checkboxBodyParts, setCheckboxBodyParts] = useState([
-    { name: "all", checked: false },
     { name: "cardio", checked: false },
     { name: "chest", checked: false },
     { name: "back", checked: false },
@@ -19,10 +18,9 @@ const FindExercises = () => {
     { name: "lower arms", checked: false },
   ]);
 
-  const findSelectedExercises = useCallback(async (checkboxes) => {
+  const findSelectedExercises = useCallback(async () => {
     let exerciseResults = [];
-
-    const checkedBoxes = checkboxes.filter((c) => c.checked);
+    const checkedBoxes = [...checkboxBodyParts].filter((c) => c.checked);
 
     for (const box of checkedBoxes) {
       const bodyPart = await getExercisesByBodyPart(box.name, maxResults);
@@ -30,10 +28,10 @@ const FindExercises = () => {
     }
 
     setExercises(exerciseResults);
-  }, [maxResults]);
+  }, [checkboxBodyParts, maxResults]);
 
   useEffect(() => {
-    findSelectedExercises([...checkboxBodyParts]);
+    findSelectedExercises();
   }, [checkboxBodyParts, maxResults, findSelectedExercises]);
 
   const handleChangeMaxResult = (e) =>
@@ -42,13 +40,6 @@ const FindExercises = () => {
   const handleCheckboxChange = (index) => {
     const updatedCheckboxes = [...checkboxBodyParts];
     updatedCheckboxes[index].checked = !updatedCheckboxes[index].checked;
-
-    if (updatedCheckboxes[index].name === "all") {
-      updatedCheckboxes.forEach(check => {
-        if (check.name !== "all") check.checked = false
-      });
-    }
-    else updatedCheckboxes[0].checked = false;
 
     setCheckboxBodyParts(updatedCheckboxes);
   };

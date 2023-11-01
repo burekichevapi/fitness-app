@@ -8,26 +8,7 @@ const headers = {
   "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
 };
 
-export const getAllExercises = async (max) => {
-  if (config.useLocalData) {
-    const data = localData.exercises.slice(0, max);
-    return data;
-  }
-
-  try {
-    const { data } = await Http.get(
-      `${config.exercisesApiEndpoint}/exercises`,
-      { headers, params: { limit: max.toString() } }
-    );
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const getExercisesByBodyPart = async (bodyPart, max) => {
-  if (bodyPart === "all") return await getAllExercises(max);
-
   if (config.useLocalData) {
     const data = localData.exercises
       .filter((exercise) => exercise.bodyPart === bodyPart)
