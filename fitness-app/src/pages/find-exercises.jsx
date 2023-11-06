@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { getExercisesByBodyPart } from "../repo/exercises-repo";
+import { handleSaveExercise } from "../repo/favorite-repo"
 import ExerciseCard from "../components/exerciseCard";
 
 const FindExercises = () => {
@@ -53,7 +54,7 @@ const FindExercises = () => {
             <form className="row">
               <div className="col-md-6 mb-3">
                 <div className="form-group">
-                  <label>number of exercises for each selected:</label>
+                  <label>Number of exercises for each selected:</label>
                   <select
                     className="form-control"
                     value={maxResults}
@@ -87,6 +88,11 @@ const FindExercises = () => {
         <div className="row">
           {exercises.map((exercise) => (
             <div key={exercise.id} className="col-md-4 mb-4">
+              <button 
+                className="btn btn-primary mt-2" 
+                onClick={() => handleSaveExercise(exercise.id)}>
+                Favorite
+              </button>
               <ExerciseCard exercise={exercise} />
             </div>
           ))}

@@ -26,3 +26,23 @@ export const getExercisesByBodyPart = async (bodyPart, max) => {
     console.error(error);
   }
 };
+
+export const getExercisesById = async (id, max=1) => {
+  if (config.useLocalData) {
+    const data = localData.exercises
+      .filter((exercise) => exercise.id === id)
+      .slice(0, max);
+    return data;
+  }
+
+  try {
+    const { data } = await Http.get(
+      `${config.exercisesApiEndpoint}/exercises/exercise/${id}`,
+      { headers, params: { limit: max.toString() } }
+    );
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+

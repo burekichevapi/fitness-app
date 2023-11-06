@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
+import Button from 'react-bootstrap/Button';
 import { getVideoUrl } from '../repo/youtube-repo';
 import config from "../config.json";
 
-const ExerciseCard = ({ exercise }) => {
+const FAVORITE_EXERCISES_KEY = 'favoriteExercises';
+
+const ExerciseCard = ({ exercise, onRemoveFavorite }) => {
   const [videoUrl, setVideoUrl] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const getId = async () => {
@@ -21,12 +25,24 @@ const ExerciseCard = ({ exercise }) => {
       }
     };
 
+    // check if the exercise.id is in the localStorage
+    const storedFavorites = localStorage.getItem(FAVORITE_EXERCISES_KEY);
+    if (storedFavorites) {
+      const favorites = JSON.parse(storedFavorites);
+      setIsFavorite(favorites.includes(exercise.id));
+    }
+
     getId();
-  }, [exercise.name]);
+  }, [exercise.name, exercise.id]);
 
   const handleImageNotFound = ({ currentTarget }) => {
     currentTarget.onerror = null;
     currentTarget.src = config.appLogoUrl;
+  };
+
+  const handleRemoveFavorite = () => {
+    onRemoveFavorite(exercise.id);
+    setIsFavorite(false);
   };
 
   return (
@@ -43,6 +59,11 @@ const ExerciseCard = ({ exercise }) => {
           <Card.Link href={videoUrl} target='_blank' rel="noreferrer">
             Watch Youtube Video
           </Card.Link>
+        )}
+        {isFavorite && (
+          <Button variant="danger" onClick={handleRemoveFavorite}>
+            Remove Favorite
+          </Button>
         )}
       </Card.Body>
     </Card>
