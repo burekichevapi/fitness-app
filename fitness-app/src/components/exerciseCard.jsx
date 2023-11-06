@@ -61,9 +61,11 @@ const ExerciseCard = ({ exercise, onRemoveFavorite }) => {
           </Card.Link>
         )}
         {isFavorite && (
-          <Button variant="danger" onClick={handleRemoveFavorite}>
+        <div className="mt-2">
+          <Button variant="danger" onClick={handleRemoveFavorite} className="ml-3"> {/* Indent with ml-3 */}
             Remove Favorite
           </Button>
+        </div>
         )}
       </Card.Body>
     </Card>
