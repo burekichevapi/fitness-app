@@ -1,4 +1,4 @@
-const LOG_WORKOUT_KEY = 'workoutCounts';
+export const LOG_WORKOUT_KEY = 'workoutCounts';
 
 export const logWorkout = (bodyPart) => {
   // Retrieve workout counts from localStorage
