@@ -93,7 +93,10 @@ const FindExercises = () => {
                 onClick={() => handleSaveExercise(exercise.id)}>
                 Favorite
               </button>
-              <ExerciseCard exercise={exercise} />
+              <ExerciseCard 
+                showRemoveFavorite={false} // hide the Remove Favorite button
+                exercise={exercise}
+              />
             </div>
           ))}
         </div>

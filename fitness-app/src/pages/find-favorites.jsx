@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getExercisesById } from "../repo/exercises-repo";
+import { logWorkout } from '../repo/workoutlog-repo';
 import ExerciseCard from "../components/exerciseCard";
+import Button from 'react-bootstrap/Button';
 
 
 const FAVORITE_EXERCISES_KEY = 'favoriteExercises';
@@ -57,6 +59,12 @@ const DisplayFavorites = () => {
                 exercise={exercise}
                 onRemoveFavorite={removeFavorite}
               />
+              <Button 
+                className="mt-2" 
+                variant="primary" 
+                onClick={() => logWorkout(exercise.bodyPart)}>
+                Log Workout
+              </Button>
             </div>
           ))}
         </div>

@@ -7,7 +7,7 @@ import config from "../config.json";
 
 const FAVORITE_EXERCISES_KEY = 'favoriteExercises';
 
-const ExerciseCard = ({ exercise, onRemoveFavorite }) => {
+const ExerciseCard = ({ exercise, onRemoveFavorite, showRemoveFavorite = true }) => {
   const [videoUrl, setVideoUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -60,7 +60,7 @@ const ExerciseCard = ({ exercise, onRemoveFavorite }) => {
             Watch Youtube Video
           </Card.Link>
         )}
-        {isFavorite && (
+        {isFavorite && showRemoveFavorite && ( // Conditionally render based on showRemoveFavorite
           <Button variant="danger" onClick={handleRemoveFavorite}>
             Remove Favorite
           </Button>
