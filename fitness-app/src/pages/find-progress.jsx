@@ -67,8 +67,6 @@ const BodyPartCounter = () => {
     localStorage.setItem(LOG_WORKOUT_KEY, JSON.stringify(workoutLogs));
   }, [workoutLogs]);
 
-  const [showCongratsPopup, setShowCongratsPopup] = useState(false);
-
   return (
     <div style={{ padding: "20px" }}>
       <h2>Workout Goals and Progress</h2>
