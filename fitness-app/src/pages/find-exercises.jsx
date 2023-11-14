@@ -19,6 +19,22 @@ const FindExercises = () => {
     { name: "lower arms", checked: false },
   ]);
 
+  // ... existing state declarations
+  const [favoritingStatus, setFavoritingStatus] = useState({});
+
+  const handleFavoriteClick = (exerciseId) => {
+    // Trigger the flash effect
+    setFavoritingStatus({ ...favoritingStatus, [exerciseId]: true });
+
+    // Call the existing favorite function
+    handleSaveExercise(exerciseId);
+
+    // Reset the effect after a short delay
+    setTimeout(() => {
+      setFavoritingStatus({ ...favoritingStatus, [exerciseId]: false });
+    }, 500); // Adjust the duration as needed
+  };
+
   const findSelectedExercises = useCallback(async () => {
     let exerciseResults = [];
     const checkedBoxes = [...checkboxBodyParts].filter((c) => c.checked);
@@ -93,9 +109,11 @@ const FindExercises = () => {
                 exercise={exercise}
               />
               <button
-                className="btn btn-primary mt-2"
+                className={`btn btn-primary mt-2 ${
+                  favoritingStatus[exercise.id] ? "flash-effect" : ""
+                }`}
                 style={{ marginLeft: "100px" }}
-                onClick={() => handleSaveExercise(exercise.id)}
+                onClick={() => handleFavoriteClick(exercise.id)}
               >
                 Favorite
               </button>
