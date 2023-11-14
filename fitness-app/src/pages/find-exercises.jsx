@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { getExercisesByBodyPart } from "../repo/exercises-repo";
-import { handleSaveExercise } from "../repo/favorite-repo"
+import { handleSaveExercise } from "../repo/favorite-repo";
 import ExerciseCard from "../components/exerciseCard";
 
 const FindExercises = () => {
@@ -88,15 +88,17 @@ const FindExercises = () => {
         <div className="row">
           {exercises.map((exercise) => (
             <div key={exercise.id} className="col-md-4 mb-4">
-              <button 
-                className="btn btn-primary mt-2" 
-                onClick={() => handleSaveExercise(exercise.id)}>
-                Favorite
-              </button>
-              <ExerciseCard 
+              <ExerciseCard
                 showRemoveFavorite={false} // hide the Remove Favorite button
                 exercise={exercise}
               />
+              <button
+                className="btn btn-primary mt-2"
+                style={{ marginLeft: "100px" }}
+                onClick={() => handleSaveExercise(exercise.id)}
+              >
+                Favorite
+              </button>
             </div>
           ))}
         </div>
