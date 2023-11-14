@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { getExercisesByBodyPart } from "../repo/exercises-repo";
 import { handleSaveExercise } from "../repo/favorite-repo";
-import ExerciseCard from "../components/exerciseCard";
+import ExerciseCard from "../components/exerciseCard/exerciseCard";
 
 const FindExercises = () => {
   const [exercises, setExercises] = useState([]);

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
-import { getVideoUrl } from '../repo/youtube-repo';
-import config from "../config.json";
+import { getVideoUrl } from '../../repo/youtube-repo';
+import config from "../../config.json";
 import "./exerciseCard.css";
 
 const FAVORITE_EXERCISES_KEY = 'favoriteExercises';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getExercisesById } from "../repo/exercises-repo";
 import { logWorkout } from "../repo/workoutlog-repo";
-import ExerciseCard from "../components/exerciseCard";
+import ExerciseCard from "../components/exerciseCard/exerciseCard";
 import Button from "react-bootstrap/Button";
 
 const FAVORITE_EXERCISES_KEY = "favoriteExercises";
