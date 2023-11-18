@@ -6,3 +6,9 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.25; }
 }
+
+.center-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { getExercisesByBodyPart } from "../repo/exercises-repo";
 import { handleSaveExercise } from "../repo/favorite-repo";
 import ExerciseCard from "../components/exerciseCard/exerciseCard";
+import Modal from "react-bootstrap/Modal";
 
 const FindExercises = () => {
   const [exercises, setExercises] = useState([]);
@@ -18,11 +19,14 @@ const FindExercises = () => {
     { name: "upper arms", checked: false },
     { name: "lower arms", checked: false },
   ]);
+  const [showModal, setShowModal] = useState(false);
 
   // ... existing state declarations
   const [favoritingStatus, setFavoritingStatus] = useState({});
 
   const handleFavoriteClick = (exerciseId) => {
+    setShowModal(true);
+
     // Trigger the flash effect
     setFavoritingStatus({ ...favoritingStatus, [exerciseId]: true });
 
@@ -34,6 +38,9 @@ const FindExercises = () => {
       setFavoritingStatus({ ...favoritingStatus, [exerciseId]: false });
     }, 500); // Adjust the duration as needed
   };
+
+  // Function to hide the modal
+  const handleCloseModal = () => setShowModal(false);
 
   const findSelectedExercises = useCallback(async () => {
     let exerciseResults = [];
@@ -108,19 +115,26 @@ const FindExercises = () => {
                 showRemoveFavorite={false} // hide the Remove Favorite button
                 exercise={exercise}
               />
-              <button
-                className={`btn btn-primary mt-2 ${
-                  favoritingStatus[exercise.id] ? "flash-effect" : ""
-                }`}
-                style={{ marginLeft: "100px" }}
-                onClick={() => handleFavoriteClick(exercise.id)}
-              >
-                Favorite
-              </button>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <button
+                  className={`btn btn-primary mt-2 ${
+                    favoritingStatus[exercise.id] ? "flash-effect" : ""
+                  }`}
+                  onClick={() => handleFavoriteClick(exercise.id)}
+                >
+                  Favorite
+                </button>
+              </div>
             </div>
           ))}
         </div>
       </div>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Added to Favorites!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Go to the Favorites page to see it!</Modal.Body>
+      </Modal>
     </div>
   );
 };

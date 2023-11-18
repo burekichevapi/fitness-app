@@ -58,17 +58,26 @@ const DisplayFavorites = () => {
           <div className="row">
             {favoriteExercisesData.map((exercise) => (
               <div key={exercise.id} className="col-md-4 mb-4">
-                <ExerciseCard
-                  exercise={exercise}
-                  onRemoveFavorite={removeFavorite}
-                />
-                <Button
-                  className="mt-2"
-                  variant="primary"
-                  onClick={() => logWorkout(exercise.bodyPart)}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
                 >
-                  Log Workout
-                </Button>
+                  <ExerciseCard
+                    exercise={exercise}
+                    onRemoveFavorite={removeFavorite}
+                  />
+                  <Button
+                    className="mt-2"
+                    variant="primary"
+                    style={{ width: "100%" }} // Makes the button full width
+                    onClick={() => logWorkout(exercise.bodyPart)}
+                  >
+                    Log Workout
+                  </Button>
+                </div>
               </div>
             ))}
           </div>

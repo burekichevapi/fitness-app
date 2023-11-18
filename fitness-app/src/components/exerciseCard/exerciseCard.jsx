@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import Card from 'react-bootstrap/Card';
-import Spinner from 'react-bootstrap/Spinner';
-import Button from 'react-bootstrap/Button';
-import { getVideoUrl } from '../../repo/youtube-repo';
+import React, { useState, useEffect } from "react";
+import Card from "react-bootstrap/Card";
+import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
+import { getVideoUrl } from "../../repo/youtube-repo";
 import config from "../../config.json";
 import "./exerciseCard.css";
 
-const FAVORITE_EXERCISES_KEY = 'favoriteExercises';
+const FAVORITE_EXERCISES_KEY = "favoriteExercises";
 
-const ExerciseCard = ({ exercise, onRemoveFavorite, showRemoveFavorite = true }) => {
+const ExerciseCard = ({
+  exercise,
+  onRemoveFavorite,
+  showRemoveFavorite = true,
+}) => {
   const [videoUrl, setVideoUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -19,7 +23,7 @@ const ExerciseCard = ({ exercise, onRemoveFavorite, showRemoveFavorite = true })
         const url = await getVideoUrl(exercise.name);
         setVideoUrl(url);
       } catch (error) {
-        console.error('Error fetching video URL: ', error);
+        console.error("Error fetching video URL: ", error);
         setVideoUrl(null);
       } finally {
         setLoading(false);
@@ -47,24 +51,38 @@ const ExerciseCard = ({ exercise, onRemoveFavorite, showRemoveFavorite = true })
   };
 
   return (
-    <Card className='m-1'>
-      <Card.Img variant="top" src={exercise.gifUrl} onError={handleImageNotFound} />
-      <Card.Body className='m-1'>
-        <Card.Title className='m-2'>{exercise.name}</Card.Title>
-        <Card.Text className='m-2 text-sm'>
+    <Card className="m-1">
+      <Card.Img
+        variant="top"
+        src={exercise.gifUrl}
+        onError={handleImageNotFound}
+      />
+      <Card.Body className="m-1">
+        {isFavorite && showRemoveFavorite && (
+          <div className="center-button">
+            <Button variant="danger" onClick={handleRemoveFavorite}>
+              Remove Favorite
+            </Button>
+          </div>
+        )}
+        <Card.Title className="m-2">{exercise.name}</Card.Title>
+        <Card.Text
+          className="m-2 text-sm"
+          style={{
+            minHeight: '300px',
+            maxHeight: '300px',
+            overflowY: 'auto',
+            scrollbarWidth: 'thin'
+          }}
+        >
           {exercise.instructions}
         </Card.Text>
         {loading ? (
           <Spinner animation="border" role="status" />
         ) : (
-          <Card.Link href={videoUrl} target='_blank' rel="noreferrer">
+          <Card.Link href={videoUrl} target="_blank" rel="noreferrer">
             Watch Youtube Video
           </Card.Link>
-        )}
-        {isFavorite && showRemoveFavorite && ( // Conditionally render based on showRemoveFavorite
-          <Button variant="danger" onClick={handleRemoveFavorite}>
-            Remove Favorite
-          </Button>
         )}
       </Card.Body>
     </Card>
