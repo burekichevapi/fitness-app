@@ -3,12 +3,14 @@ import { getExercisesById } from "../repo/exercises-repo";
 import { logWorkout } from "../repo/workoutlog-repo";
 import ExerciseCard from "../components/exerciseCard/exerciseCard";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 const FAVORITE_EXERCISES_KEY = "favoriteExercises";
 
 const DisplayFavorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [favoriteExercisesData, setFavoriteExercisesData] = useState([]);
+  const [showWorkoutLoggedModal, setShowWorkoutLoggedModal] = useState(false);
 
   useEffect(() => {
     // retrieve the favorite exercises from localStorage
@@ -48,6 +50,13 @@ const DisplayFavorites = () => {
     setFavorites(updatedFavorites);
   };
 
+  const handleLogWorkout = (exerciseBodyPart) => {
+    logWorkout(exerciseBodyPart);
+    setShowWorkoutLoggedModal(true);
+  };
+
+  const handleCloseWorkoutLoggedModal = () => setShowWorkoutLoggedModal(false);
+
   return (
     <div>
       <div className="container mt-5">
@@ -72,8 +81,8 @@ const DisplayFavorites = () => {
                   <Button
                     className="mt-2"
                     variant="primary"
-                    style={{ width: "100%" }} // Makes the button full width
-                    onClick={() => logWorkout(exercise.bodyPart)}
+                    style={{ width: "100%" }}
+                    onClick={() => handleLogWorkout(exercise.bodyPart)}
                   >
                     Log Workout
                   </Button>
@@ -82,6 +91,18 @@ const DisplayFavorites = () => {
             ))}
           </div>
         )}
+        <Modal
+          show={showWorkoutLoggedModal}
+          onHide={handleCloseWorkoutLoggedModal}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Workout Logged</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Your exercise has been logged. See the My Progress page for your
+            workout logs.
+          </Modal.Body>
+        </Modal>
       </div>
     </div>
   );
