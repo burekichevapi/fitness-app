@@ -9,47 +9,49 @@ const headers = {
 };
 
 export const getExercisesByBodyPart = async (bodyPart, max) => {
-  if (config.useLocalData) {
-    const data = localData.exercises
-      .filter((exercise) => exercise.bodyPart === bodyPart)
-      .slice(0, max);
-    return data;
-  }
+  if (config.useLocalData) return getExercisesByBodyPart_local(bodyPart, max);
 
   try {
     const { data } = await Http.get(
       `${config.exercisesApiEndpoint}/exercises/bodyPart/${bodyPart}`,
       { headers, params: { limit: max.toString() } }
     );
+
     return data;
   } catch (error) {
     console.error(error);
-    const data = localData.exercises
-      .filter((exercise) => exercise.bodyPart === bodyPart)
-      .slice(0, max);
-    return data;
+    return getExercisesByBodyPart_local(bodyPart, max);
   }
 };
 
+const getExercisesByBodyPart_local = (bodyPart, max) => {
+  const data = localData.exercises
+    .filter((exercise) => exercise.bodyPart === bodyPart)
+    .slice(0, max);
+
+  return data;
+};
+
 export const getExercisesById = async (id, max = 1) => {
-  if (config.useLocalData) {
-    const data = localData.exercises
-      .filter((exercise) => exercise.id === id)
-      .slice(0, max);
-    return data;
-  }
+  if (config.useLocalData) return getExercisesById_local(id, max);
 
   try {
     const { data } = await Http.get(
       `${config.exercisesApiEndpoint}/exercises/exercise/${id}`,
       { headers, params: { limit: max.toString() } }
     );
+
     return data;
   } catch (error) {
     console.error(error);
-    const data = localData.exercises
-      .filter((exercise) => exercise.id === id)
-      .slice(0, max);
-    return data;
+    return getExercisesById_local(id, max);
   }
+};
+
+const getExercisesById_local = (id, max = 1) => {
+  const data = localData.exercises
+    .filter((exercise) => exercise.id === id)
+    .slice(0, max);
+
+  return data;
 };
