@@ -24,10 +24,14 @@ export const getExercisesByBodyPart = async (bodyPart, max) => {
     return data;
   } catch (error) {
     console.error(error);
+    const data = localData.exercises
+      .filter((exercise) => exercise.bodyPart === bodyPart)
+      .slice(0, max);
+    return data;
   }
 };
 
-export const getExercisesById = async (id, max=1) => {
+export const getExercisesById = async (id, max = 1) => {
   if (config.useLocalData) {
     const data = localData.exercises
       .filter((exercise) => exercise.id === id)
@@ -43,6 +47,9 @@ export const getExercisesById = async (id, max=1) => {
     return data;
   } catch (error) {
     console.error(error);
+    const data = localData.exercises
+      .filter((exercise) => exercise.id === id)
+      .slice(0, max);
+    return data;
   }
 };
-
