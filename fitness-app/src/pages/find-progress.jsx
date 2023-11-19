@@ -72,7 +72,7 @@ const BodyPartCounter = () => {
         <div style={{ padding: "20px" }}>
           <h2>Workout Goals and Progress</h2>
           <br></br>
-          <pre> My Goal Progress</pre>
+          <pre>   Set Goal          Progress (Actual/Goal)</pre>
           <div className="goalAndProgress">
             {bodyParts.map((part) => (
               <div
