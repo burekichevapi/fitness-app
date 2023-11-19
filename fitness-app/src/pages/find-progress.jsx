@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { LOG_WORKOUT_KEY } from "../repo/workoutlog-repo";
+
+import {
+  loadCountsFromCache,
+  loadWorkoutLogsFromCache,
+  updateCountsInCache,
+  updateWorkoutLogsInCache,
+  resetCache,
+} from "../repo/progress-repo";
 
 const BodyPartCounter = () => {
   const bodyParts = [
@@ -15,16 +22,10 @@ const BodyPartCounter = () => {
     "lower arms",
   ];
 
-  const CACHE_KEY = "bodyPartCounts";
-
-  const loadCountsFromCache = () => {
-    const cachedCounts = localStorage.getItem(CACHE_KEY);
-    return cachedCounts
-      ? JSON.parse(cachedCounts)
-      : bodyParts.reduce((acc, part) => ({ ...acc, [part]: 0 }), {});
-  };
-
-  const [counts, setCounts] = useState(loadCountsFromCache());
+  const [counts, setCounts] = useState(() => loadCountsFromCache(bodyParts));
+  const [workoutLogs, setWorkoutLogs] = useState(() =>
+    loadWorkoutLogsFromCache(bodyParts)
+  );
 
   const incrementCount = (part) => {
     if (counts[part] < 1000) {
@@ -39,38 +40,17 @@ const BodyPartCounter = () => {
   };
 
   const resetCounts = () => {
-    const resetCounts = bodyParts.reduce(
-      (acc, part) => ({ ...acc, [part]: 0 }),
-      {}
-    );
-    setCounts(resetCounts);
-
-    // Reset the workout logs
-    const resetWorkoutLogs = bodyParts.reduce(
-      (acc, part) => ({ ...acc, [part]: 0 }),
-      {}
-    );
-    setWorkoutLogs(resetWorkoutLogs);
-
-    localStorage.setItem(CACHE_KEY, JSON.stringify(resetCounts));
-    localStorage.setItem(LOG_WORKOUT_KEY, JSON.stringify(resetWorkoutLogs));
+    setCounts(loadCountsFromCache(bodyParts));
+    setWorkoutLogs(loadWorkoutLogsFromCache(bodyParts));
+    resetCache(bodyParts);
   };
 
-  // New state for storing workout logs
-  const [workoutLogs, setWorkoutLogs] = useState(() => {
-    const logs = localStorage.getItem(LOG_WORKOUT_KEY);
-    return logs
-      ? JSON.parse(logs)
-      : bodyParts.reduce((acc, part) => ({ ...acc, [part]: 0 }), {});
-  });
-
   useEffect(() => {
-    localStorage.setItem(CACHE_KEY, JSON.stringify(counts));
+    updateCountsInCache(counts);
   }, [counts]);
 
-  // New effect for updating workout logs
   useEffect(() => {
-    localStorage.setItem(LOG_WORKOUT_KEY, JSON.stringify(workoutLogs));
+    updateWorkoutLogsInCache(workoutLogs);
   }, [workoutLogs]);
 
   return (
@@ -84,11 +64,14 @@ const BodyPartCounter = () => {
           }
         `}
       </style>
-      <div className="container mt-5 hide-on-small" style={{ minWidth: "710px" }}>
+      <div
+        className="container mt-5 hide-on-small"
+        style={{ minWidth: "710px" }}
+      >
         <div style={{ padding: "20px" }}>
           <h2>Workout Goals and Progress</h2>
           <br></br>
-          <pre>    My Goal          Progress</pre>
+          <pre> My Goal Progress</pre>
           <div className="goalAndProgress">
             {bodyParts.map((part) => (
               <div
