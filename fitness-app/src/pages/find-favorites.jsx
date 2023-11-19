@@ -3,7 +3,11 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ExerciseCard from "../components/exerciseCard/exerciseCard";
 import { getExercisesById } from "../repo/exercises-repo";
-import { logWorkout, saveWorkoutDetails, getWorkoutDetails } from "../repo/progress-repo";
+import {
+  logWorkout,
+  saveWorkoutDetails,
+  getWorkoutDetails,
+} from "../repo/progress-repo";
 import {
   getFavoritesFromLocalStorage,
   removeFavoriteFromLocalStorage,
@@ -13,7 +17,7 @@ const DisplayFavorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [favoriteExercisesData, setFavoriteExercisesData] = useState([]);
   const [workoutDetails, setWorkoutDetails] = useState({
-    time: "",
+    duration: "",
     sets: "",
     reps: "",
   });
@@ -54,7 +58,7 @@ const DisplayFavorites = () => {
   const handleLogWorkout = (exercise) => {
     const previousDetails = getWorkoutDetails(exercise.name) || [];
 
-    setWorkoutDetails({ time: "", sets: "", reps: "" });
+    setWorkoutDetails({ duration: "", sets: "", reps: "" });
 
     setSelectedExercise(exercise);
     setShowWorkoutDetailsModal(true);
@@ -62,15 +66,23 @@ const DisplayFavorites = () => {
   };
 
   const handleSaveWorkoutDetails = () => {
+    const now = new Date();
+    const formattedTime = `${
+      now.getMonth() + 1
+    }/${now.getDate()} at ${now.getHours()}:${now.getMinutes()}`;
 
-    if (typeof workoutDetails === "object" && !Array.isArray(workoutDetails)) {
-      saveWorkoutDetails(selectedExercise.name, workoutDetails);
+    const detailsToSave = {
+      ...workoutDetails,
+      timeLogged: formattedTime, // Updated time format
+    };
+
+    if (typeof detailsToSave === "object" && !Array.isArray(detailsToSave)) {
+      saveWorkoutDetails(selectedExercise.name, detailsToSave);
+      logWorkout(selectedExercise.bodyPart);
+      setShowWorkoutDetailsModal(false);
     } else {
       console.error("Invalid workoutDetails format:", workoutDetails);
     }
-
-    logWorkout(selectedExercise.bodyPart);
-    setShowWorkoutDetailsModal(false);
   };
 
   return (
@@ -117,23 +129,24 @@ const DisplayFavorites = () => {
           <Modal.Body>
             <h5>Previous Workouts</h5>
             <ul>
-              {previousWorkoutDetails.map((detail, index) => (
+              {[...previousWorkoutDetails].reverse().map((detail, index) => (
                 <li key={index}>
-                  Time: {detail.time}, Sets: {detail.sets}, Reps: {detail.reps}
+                  {detail.timeLogged}, Duration: {detail.duration} mins, Sets:{" "}
+                  {detail.sets}, Reps: {detail.reps}
                 </li>
               ))}
             </ul>
             <form>
               <div className="form-group">
-                <label>Time (minutes)</label>
+                <label>Duration (minutes)</label>
                 <input
                   type="number"
                   className="form-control"
-                  value={workoutDetails.time}
+                  value={workoutDetails.duration}
                   onChange={(e) =>
                     setWorkoutDetails({
                       ...workoutDetails,
-                      time: e.target.value,
+                      duration: e.target.value,
                     })
                   }
                 />
