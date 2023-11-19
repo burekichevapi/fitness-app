@@ -48,23 +48,22 @@ const logWorkout = (bodyPart) => {
   );
 };
 
-const loadWorkoutDetailsFromCache = () => {
-  const details = localStorage.getItem(ACTUAL_WORKOUT_DETAILS_KEY);
-  return details ? JSON.parse(details) : {};
-};
+const saveWorkoutDetails = (exerciseName, details) => {
+  const workouts = JSON.parse(localStorage.getItem(ACTUAL_WORKOUT_DETAILS_KEY)) || {};
 
-const logWorkoutDetails = (exerciseName, exerciseId, { time, sets, reps }) => {
-  const workoutDetails = loadWorkoutDetailsFromCache();
-
-  if (!workoutDetails[exerciseId]) {
-    workoutDetails[exerciseId] = { name: exerciseName, logs: [] };
+  if (!workouts[exerciseName]) {
+    workouts[exerciseName] = [];
   }
 
-  workoutDetails[exerciseId].logs.push({ time, sets, reps, date: new Date().toLocaleString() });
+  workouts[exerciseName].push(details);
 
-  localStorage.setItem(ACTUAL_WORKOUT_DETAILS_KEY, JSON.stringify(workoutDetails));
+  localStorage.setItem(ACTUAL_WORKOUT_DETAILS_KEY, JSON.stringify(workouts));
 };
 
+const getWorkoutDetails = (exerciseName) => {
+  const workouts = JSON.parse(localStorage.getItem(ACTUAL_WORKOUT_DETAILS_KEY)) || {};
+  return workouts[exerciseName];
+};
 
 export {
   loadCountsFromCache,
@@ -73,6 +72,6 @@ export {
   updateWorkoutLogsInCache,
   resetCache,
   logWorkout,
-  loadWorkoutDetailsFromCache,
-  logWorkoutDetails
+  saveWorkoutDetails,
+  getWorkoutDetails
 };

@@ -5,6 +5,7 @@ import ExerciseCard from "../components/exerciseCard/exerciseCard";
 import { getExercisesById } from "../repo/exercises-repo";
 import {
   logWorkout,
+  saveWorkoutDetails,
 } from "../repo/progress-repo";
 import {
   getFavoritesFromLocalStorage,
@@ -14,7 +15,13 @@ import {
 const DisplayFavorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [favoriteExercisesData, setFavoriteExercisesData] = useState([]);
-  const [showWorkoutLoggedModal, setShowWorkoutLoggedModal] = useState(false);
+  const [workoutDetails, setWorkoutDetails] = useState({
+    time: "",
+    sets: "",
+    reps: "",
+  });
+  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState(false);
 
   useEffect(() => {
     const favoritesFromStorage = getFavoritesFromLocalStorage();
@@ -46,12 +53,26 @@ const DisplayFavorites = () => {
     setFavorites(updatedFavorites);
   };
 
-  const handleLogWorkout = (exerciseBodyPart) => {
-    logWorkout(exerciseBodyPart);
-    setShowWorkoutLoggedModal(true);
+  const handleLogWorkout = (exercise) => {
+    console.log('title is ', exercise.name);
+    setWorkoutDetails({ time: "", sets: "", reps: "" });
+    setSelectedExercise(exercise);
+    setShowWorkoutDetailsModal(true);
   };
 
-  const handleCloseWorkoutLoggedModal = () => setShowWorkoutLoggedModal(false);
+  const handleSaveWorkoutDetails = () => {
+    console.log('Details to be saved:', workoutDetails); // Debugging line
+  
+    // Ensure the structure of workoutDetails is correct
+    if (typeof workoutDetails === 'object' && !Array.isArray(workoutDetails)) {
+      saveWorkoutDetails(selectedExercise.name, workoutDetails);
+    } else {
+      console.error('Invalid workoutDetails format:', workoutDetails);
+    }
+  
+    logWorkout(selectedExercise.bodyPart);
+    setShowWorkoutDetailsModal(false);
+  };
 
   return (
     <div>
@@ -78,7 +99,7 @@ const DisplayFavorites = () => {
                     className="mt-2"
                     variant="primary"
                     style={{ width: "100%" }}
-                    onClick={() => handleLogWorkout(exercise.bodyPart)}
+                    onClick={() => handleLogWorkout(exercise)} // Pass the entire exercise object
                   >
                     Log Workout
                   </Button>
@@ -88,16 +109,69 @@ const DisplayFavorites = () => {
           </div>
         )}
         <Modal
-          show={showWorkoutLoggedModal}
-          onHide={handleCloseWorkoutLoggedModal}
+          show={showWorkoutDetailsModal}
+          onHide={() => setShowWorkoutDetailsModal(false)}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Workout Logged</Modal.Title>
+            <Modal.Title>Log Workout Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Your exercise has been logged. See the My Progress page for your
-            workout logs.
+            <form>
+              <div className="form-group">
+                <label>Time (minutes)</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={workoutDetails.time}
+                  onChange={(e) =>
+                    setWorkoutDetails({
+                      ...workoutDetails,
+                      time: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="form-group">
+                <label>Sets</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={workoutDetails.sets}
+                  onChange={(e) =>
+                    setWorkoutDetails({
+                      ...workoutDetails,
+                      sets: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="form-group">
+                <label>Reps</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={workoutDetails.reps}
+                  onChange={(e) =>
+                    setWorkoutDetails({
+                      ...workoutDetails,
+                      reps: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </form>
           </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => setShowWorkoutDetailsModal(false)}
+            >
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleSaveWorkoutDetails}>
+              Save Workout
+            </Button>
+          </Modal.Footer>
         </Modal>
       </div>
     </div>
