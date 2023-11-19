@@ -74,55 +74,80 @@ const BodyPartCounter = () => {
   }, [workoutLogs]);
 
   return (
-    <div className="container mt-5">
-      <div style={{ padding: "20px" }}>
-        <h2>Workout Goals and Progress</h2>
-        {bodyParts.map((part) => (
-          <div
-            key={part}
-            style={{ display: "flex", alignItems: "center", margin: "10px" }}
-          >
-            <button onClick={() => decrementCount(part)}>-</button>
-            <input
-              type="text"
-              value={counts[part]}
-              readOnly
-              style={{
-                width: "50px",
-                textAlign: "center",
-                marginRight: "10px",
-              }}
-            />
-            <button onClick={() => incrementCount(part)}>+</button>
-            <input
-              type="text"
-              value={
-                counts[part] === 0 &&
-                (workoutLogs[part] === 0 || workoutLogs[part] === undefined)
-                  ? ""
-                  : `${workoutLogs[part] || 0} / ${counts[part]}`
-              }
-              readOnly
-              style={{
-                width: "100px",
-                textAlign: "center",
-                marginLeft: "50px",
-                marginRight: "10px",
-                backgroundColor:
-                  counts[part] === 0 &&
-                  (workoutLogs[part] === 0 || workoutLogs[part] === undefined)
-                    ? "lightgray"
-                    : counts[part] <= workoutLogs[part]
-                    ? "lightgreen"
-                    : "white",
-              }}
-            />
-            <span style={{ marginLeft: "10px" }}>{part}</span>
+    <div>
+      <style>
+        {`
+          @media (max-width: 710px) {
+            .hide-on-small {
+              display: none;
+            }
+          }
+        `}
+      </style>
+      <div className="container mt-5 hide-on-small" style={{ minWidth: "710px" }}>
+        <div style={{ padding: "20px" }}>
+          <h2>Workout Goals and Progress</h2>
+          <br></br>
+          <pre>    My Goal          Progress</pre>
+          <div className="goalAndProgress">
+            {bodyParts.map((part) => (
+              <div
+                key={part}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  margin: "10px",
+                }}
+              >
+                <div className="goalChange">
+                  <button onClick={() => decrementCount(part)}>-</button>
+                  <input
+                    type="text"
+                    value={counts[part]}
+                    readOnly
+                    style={{
+                      width: "50px",
+                      textAlign: "center",
+                      marginRight: "10px",
+                    }}
+                  />
+                  <button onClick={() => incrementCount(part)}>+</button>
+                </div>
+                <div className="myProgress">
+                  <input
+                    type="text"
+                    value={
+                      counts[part] === 0 &&
+                      (workoutLogs[part] === 0 ||
+                        workoutLogs[part] === undefined)
+                        ? ""
+                        : `${workoutLogs[part] || 0} / ${counts[part]}`
+                    }
+                    readOnly
+                    style={{
+                      width: "100px",
+                      textAlign: "center",
+                      marginLeft: "50px",
+                      marginRight: "10px",
+                      backgroundColor:
+                        counts[part] === 0 &&
+                        (workoutLogs[part] === 0 ||
+                          workoutLogs[part] === undefined)
+                          ? "lightgray"
+                          : counts[part] <= workoutLogs[part]
+                          ? "lightgreen"
+                          : "white",
+                    }}
+                  />
+                  <span style={{ marginLeft: "10px" }}>{part}</span>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-        <button onClick={resetCounts} style={{ marginBottom: "20px" }}>
-          Reset Workout
-        </button>
+          <button onClick={resetCounts} style={{ marginBottom: "20px" }}>
+            Reset Workout
+          </button>
+        </div>
       </div>
     </div>
   );
