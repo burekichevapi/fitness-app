@@ -3,10 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ExerciseCard from "../components/exerciseCard/exerciseCard";
 import { getExercisesById } from "../repo/exercises-repo";
-import {
-  logWorkout,
-  saveWorkoutDetails,
-} from "../repo/progress-repo";
+import { logWorkout, saveWorkoutDetails, getWorkoutDetails } from "../repo/progress-repo";
 import {
   getFavoritesFromLocalStorage,
   removeFavoriteFromLocalStorage,
@@ -22,6 +19,7 @@ const DisplayFavorites = () => {
   });
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState(false);
+  const [previousWorkoutDetails, setPreviousWorkoutDetails] = useState([]);
 
   useEffect(() => {
     const favoritesFromStorage = getFavoritesFromLocalStorage();
@@ -54,22 +52,23 @@ const DisplayFavorites = () => {
   };
 
   const handleLogWorkout = (exercise) => {
-    console.log('title is ', exercise.name);
+    const previousDetails = getWorkoutDetails(exercise.name) || [];
+
     setWorkoutDetails({ time: "", sets: "", reps: "" });
+
     setSelectedExercise(exercise);
     setShowWorkoutDetailsModal(true);
+    setPreviousWorkoutDetails(previousDetails);
   };
 
   const handleSaveWorkoutDetails = () => {
-    console.log('Details to be saved:', workoutDetails); // Debugging line
-  
-    // Ensure the structure of workoutDetails is correct
-    if (typeof workoutDetails === 'object' && !Array.isArray(workoutDetails)) {
+
+    if (typeof workoutDetails === "object" && !Array.isArray(workoutDetails)) {
       saveWorkoutDetails(selectedExercise.name, workoutDetails);
     } else {
-      console.error('Invalid workoutDetails format:', workoutDetails);
+      console.error("Invalid workoutDetails format:", workoutDetails);
     }
-  
+
     logWorkout(selectedExercise.bodyPart);
     setShowWorkoutDetailsModal(false);
   };
@@ -99,7 +98,7 @@ const DisplayFavorites = () => {
                     className="mt-2"
                     variant="primary"
                     style={{ width: "100%" }}
-                    onClick={() => handleLogWorkout(exercise)} // Pass the entire exercise object
+                    onClick={() => handleLogWorkout(exercise)}
                   >
                     Log Workout
                   </Button>
@@ -116,6 +115,14 @@ const DisplayFavorites = () => {
             <Modal.Title>Log Workout Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <h5>Previous Workouts</h5>
+            <ul>
+              {previousWorkoutDetails.map((detail, index) => (
+                <li key={index}>
+                  Time: {detail.time}, Sets: {detail.sets}, Reps: {detail.reps}
+                </li>
+              ))}
+            </ul>
             <form>
               <div className="form-group">
                 <label>Time (minutes)</label>
