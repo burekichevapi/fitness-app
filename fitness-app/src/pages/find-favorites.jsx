@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { getExercisesById } from "../repo/exercises-repo";
 import { logWorkout } from "../repo/workoutlog-repo";
+import { getFavoritesFromLocalStorage, removeFavoriteFromLocalStorage } from "../repo/favorite-repo";
 import ExerciseCard from "../components/exerciseCard/exerciseCard";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-
-const FAVORITE_EXERCISES_KEY = "favoriteExercises";
 
 const DisplayFavorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -13,10 +12,9 @@ const DisplayFavorites = () => {
   const [showWorkoutLoggedModal, setShowWorkoutLoggedModal] = useState(false);
 
   useEffect(() => {
-    // retrieve the favorite exercises from localStorage
-    const storedFavorites = localStorage.getItem(FAVORITE_EXERCISES_KEY);
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
+    const favoritesFromStorage = getFavoritesFromLocalStorage();
+    if (favoritesFromStorage) {
+      setFavorites(favoritesFromStorage);
     }
   }, []);
 
@@ -39,14 +37,7 @@ const DisplayFavorites = () => {
   }, [favorites]);
 
   const removeFavorite = (exerciseIdToRemove) => {
-    const updatedFavorites = favorites.filter(
-      (exerciseId) => exerciseId !== exerciseIdToRemove
-    );
-
-    localStorage.setItem(
-      FAVORITE_EXERCISES_KEY,
-      JSON.stringify(updatedFavorites)
-    );
+    const updatedFavorites = removeFavoriteFromLocalStorage(exerciseIdToRemove);
     setFavorites(updatedFavorites);
   };
 

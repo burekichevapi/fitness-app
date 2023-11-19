@@ -40,8 +40,9 @@ const BodyPartCounter = () => {
   };
 
   const resetCounts = () => {
-    setCounts(loadCountsFromCache(bodyParts));
-    setWorkoutLogs(loadWorkoutLogsFromCache(bodyParts));
+    const resetValues = bodyParts.reduce((acc, part) => ({ ...acc, [part]: 0 }), {});
+    setCounts(resetValues);
+    setWorkoutLogs(resetValues);
     resetCache(bodyParts);
   };
 
