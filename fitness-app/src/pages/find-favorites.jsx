@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { getExercisesById } from "../repo/exercises-repo";
-import { logWorkout } from "../repo/workoutlog-repo";
-import { getFavoritesFromLocalStorage, removeFavoriteFromLocalStorage } from "../repo/favorite-repo";
-import ExerciseCard from "../components/exerciseCard/exerciseCard";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import ExerciseCard from "../components/exerciseCard/exerciseCard";
+import { getExercisesById } from "../repo/exercises-repo";
+import {
+  logWorkout,
+} from "../repo/progress-repo";
+import {
+  getFavoritesFromLocalStorage,
+  removeFavoriteFromLocalStorage,
+} from "../repo/favorite-repo";
 
 const DisplayFavorites = () => {
   const [favorites, setFavorites] = useState([]);
