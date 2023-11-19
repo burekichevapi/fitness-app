@@ -65,14 +65,21 @@ const ExerciseCard = ({
             </Button>
           </div>
         )}
-        <Card.Title className="m-2">{exercise.name}</Card.Title>
+        <Card.Title
+          className="m-2"
+          style={{
+            minHeight: "50px",
+          }}
+        >
+          {exercise.name}
+        </Card.Title>
         <Card.Text
           className="m-2 text-sm"
           style={{
-            minHeight: '300px',
-            maxHeight: '300px',
-            overflowY: 'auto',
-            scrollbarWidth: 'thin'
+            minHeight: "300px",
+            maxHeight: "300px",
+            overflowY: "auto",
+            scrollbarWidth: "thin",
           }}
         >
           {exercise.instructions}
