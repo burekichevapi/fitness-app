@@ -8,9 +8,7 @@ const headers = {
 };
 
 export const getVideoUrl = async (exerciseName) => {
-  if (config.useLocalData) {
-    return "https://youtube.com";
-  }
+  if (config.useLocalData) return "https://youtube.com";
 
   const options = {
     params: { q: `${exerciseName} exercise` },
@@ -22,8 +20,10 @@ export const getVideoUrl = async (exerciseName) => {
       `${config.youtubeSearchApiEndpoint}/youtube-search/`,
       options
     );
+
     return response.data.videos[0].link;
   } catch (error) {
     console.error(error);
+    return "https://youtube.com";
   }
 };
