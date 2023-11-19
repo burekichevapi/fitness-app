@@ -66,24 +66,33 @@ const DisplayFavorites = () => {
   };
 
   const handleSaveWorkoutDetails = () => {
-    const now = new Date();
-    const formattedTime = `${
-      now.getMonth() + 1
-    }/${now.getDate()} at ${now.getHours()}:${now.getMinutes()}`;
 
-    const detailsToSave = {
-      ...workoutDetails,
-      timeLogged: formattedTime, // Updated time format
-    };
-
-    if (typeof detailsToSave === "object" && !Array.isArray(detailsToSave)) {
-      saveWorkoutDetails(selectedExercise.name, detailsToSave);
-      logWorkout(selectedExercise.bodyPart);
-      setShowWorkoutDetailsModal(false);
-    } else {
-      console.error("Invalid workoutDetails format:", workoutDetails);
+    const { duration, sets, reps } = workoutDetails;
+    if (!duration && !sets && !reps) {
+      alert("Please enter at least one of the following: Duration, Sets, or Reps.");
+      return; // Prevents saving if all fields are empty
     }
+
+    const cleanedDetails = {
+      duration: workoutDetails.duration ? parseInt(workoutDetails.duration) : 0,
+      sets: workoutDetails.sets ? parseInt(workoutDetails.sets) : 0,
+      reps: workoutDetails.reps ? parseInt(workoutDetails.reps) : 0,
+    };
+  
+    const now = new Date();
+    const formattedTime = `${now.getMonth() + 1}/${now.getDate()} at ${now.getHours()}:${now.getMinutes()}`;
+  
+    const detailsToSave = {
+      ...cleanedDetails,
+      timeLogged: formattedTime,
+    };
+  
+    saveWorkoutDetails(selectedExercise.name, detailsToSave);
+    logWorkout(selectedExercise.bodyPart);
+    setShowWorkoutDetailsModal(false);
   };
+  
+  
 
   return (
     <div>
