@@ -24,6 +24,7 @@ const DisplayFavorites = () => {
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [showWorkoutDetailsModal, setShowWorkoutDetailsModal] = useState(false);
   const [previousWorkoutDetails, setPreviousWorkoutDetails] = useState([]);
+  const [showValidationModal, setShowValidationModal] = useState(false);
 
   useEffect(() => {
     const favoritesFromStorage = getFavoritesFromLocalStorage();
@@ -66,11 +67,10 @@ const DisplayFavorites = () => {
   };
 
   const handleSaveWorkoutDetails = () => {
-
     const { duration, sets, reps } = workoutDetails;
     if (!duration && !sets && !reps) {
-      alert("Please enter at least one of the following: Duration, Sets, or Reps.");
-      return; // Prevents saving if all fields are empty
+      setShowValidationModal(true);
+      return;
     }
 
     const cleanedDetails = {
@@ -78,21 +78,21 @@ const DisplayFavorites = () => {
       sets: workoutDetails.sets ? parseInt(workoutDetails.sets) : 0,
       reps: workoutDetails.reps ? parseInt(workoutDetails.reps) : 0,
     };
-  
+
     const now = new Date();
-    const formattedTime = `${now.getMonth() + 1}/${now.getDate()} at ${now.getHours()}:${now.getMinutes()}`;
-  
+    const formattedTime = `${
+      now.getMonth() + 1
+    }/${now.getDate()} at ${now.getHours()}:${now.getMinutes()}`;
+
     const detailsToSave = {
       ...cleanedDetails,
       timeLogged: formattedTime,
     };
-  
+
     saveWorkoutDetails(selectedExercise.name, detailsToSave);
     logWorkout(selectedExercise.bodyPart);
     setShowWorkoutDetailsModal(false);
   };
-  
-  
 
   return (
     <div>
@@ -201,6 +201,33 @@ const DisplayFavorites = () => {
               Save Workout
             </Button>
           </Modal.Footer>
+        </Modal>
+        <Modal
+          show={showValidationModal}
+          onHide={() => setShowValidationModal(false)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Modal.Dialog>
+            <Modal.Header closeButton>
+              <Modal.Title>Input Required</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Please enter at least one of the following: Duration, Sets, or
+              Reps.
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="secondary"
+                onClick={() => setShowValidationModal(false)}
+              >
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal.Dialog>
         </Modal>
       </div>
     </div>
