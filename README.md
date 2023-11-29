@@ -7,8 +7,6 @@ Fitness App is a web application built with React that helps users track their h
 - [Features](#features)
 - [Installation](#installation)
 - [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
