@@ -8,7 +8,7 @@ Fitness App is a web application built with React that helps users track their h
 - [Special Instructions](#special-instructions)
 
 ## Deployment
-Todo add information!
+The application was deployed to Heroku.
 
 ## User Instructions
 First navigate to the app at https://fitness-app-gatech-75339ba0575b.herokuapp.com/
