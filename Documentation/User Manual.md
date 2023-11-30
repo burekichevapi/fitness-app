@@ -21,7 +21,7 @@ Click the Login with Google button to sign in. You can use your Gmail account or
 
 You should now see the Logout button appear.
 
-### Find Exercises tab:
+### <ins>Find Exercises tab:
 #### The default landing page should be the Find Exercises page.
 ##### Actions
 
@@ -31,7 +31,7 @@ You should now see the Logout button appear.
 - Clicking on the Watch Youtube Video link should launch the exercise video on YouTube. However, due to our limit of 500 API requests/month on the free RapidAPI account, we are using test data and the YouTube links point to www.youtube.com
 - Click on the Favorite button on the bottom to add it to Favorites
 
-### Favorite Exercises tab:
+### <ins>Favorite Exercises tab:
 #### If a favorite was added, it would show up in this page.
 ##### Actions
 
@@ -41,7 +41,7 @@ You should now see the Logout button appear.
 - Clicking Log Workout next time on that workout will show previous entries
 - To remove the Favorite, click Remove Favorite button
 
-### My Progress tab:
+### <ins>My Progress tab:
 #### This page allows users to set their workout goal and see their progress.
 ##### Actions
 
