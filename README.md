@@ -1,4 +1,5 @@
 # Fitness App
+[Click Here For Application](https://fitness-app-gatech-75339ba0575b.herokuapp.com/)
 
 Fitness App is a web application built with React that helps users track their health and fitness activities. Whether you're monitoring your workouts, setting fitness goals, or finding a new exercise to try out we got you covered.
 
