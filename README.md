@@ -43,4 +43,4 @@ Fitness App is a web application built with React that helps users track their h
    - Rapid API
 
 ## Wireframe
-   https://github.gatech.edu/sshrestha48/fitness-app/tree/main/designs
+   [https://github.gatech.edu/sshrestha48/fitness-app/tree/main/designs](https://github.gatech.edu/sshrestha48/fitness-app/tree/main/Documentation/wireframes)
