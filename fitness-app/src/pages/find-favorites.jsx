@@ -39,14 +39,15 @@ const DisplayFavorites = () => {
       const exercisesData = [];
       for (let exerciseId of favorites) {
         const data = await getExercisesById(exerciseId);
+        console.log(data);
         console.log('getExerciseById: ', exerciseId);
-        if (data && data.length > 0) {
-          exercisesData.push(data[0]);
+        if (data) {
+          exercisesData.push(data);
         }
       }
       setFavoriteExercisesData(exercisesData);
     };
-  
+
     fetchExerciseData();
   }, [favorites]);
 
@@ -55,7 +56,7 @@ const DisplayFavorites = () => {
     const updatedFavorites = getFavoritesFromLocalStorage() || [];
     setFavorites(updatedFavorites);
   };
-  
+
 
   const handleLogWorkout = (exercise) => {
     const previousDetails = getWorkoutDetails(exercise.name) || [];
@@ -81,9 +82,8 @@ const DisplayFavorites = () => {
     };
 
     const now = new Date();
-    const formattedTime = `${
-      now.getMonth() + 1
-    }/${now.getDate()} at ${now.getHours()}:${now.getMinutes()}`;
+    const formattedTime = `${now.getMonth() + 1
+      }/${now.getDate()} at ${now.getHours()}:${now.getMinutes()}`;
 
     const detailsToSave = {
       ...cleanedDetails,

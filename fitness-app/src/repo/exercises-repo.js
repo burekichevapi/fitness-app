@@ -32,26 +32,24 @@ const getExercisesByBodyPart_local = (bodyPart, max) => {
   return data;
 };
 
-export const getExercisesById = async (id, max = 1) => {
-  if (config.useLocalData) return getExercisesById_local(id, max);
+export const getExercisesById = async (id) => {
+  if (config.useLocalData) return getExerciseById_local(id);
 
   try {
     const { data } = await Http.get(
       `${config.exercisesApiEndpoint}/exercises/exercise/${id}`,
-      { headers, params: { limit: max.toString() } }
+      { headers, params: { limit: "1" } }
     );
 
     return data;
   } catch (error) {
     console.error(error);
-    return getExercisesById_local(id, max);
+    return getExerciseById_local(id);
   }
 };
 
-const getExercisesById_local = (id, max = 1) => {
-  const data = localData.exercises
-    .filter((exercise) => exercise.id === id)
-    .slice(0, max);
+const getExerciseById_local = (id) => {
+  const data = localData.exercises.filter((exercise) => exercise.id === id);
 
-  return data;
+  return data[0];
 };
