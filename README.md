@@ -39,8 +39,8 @@ Fitness App is a web application built with React that helps users track their h
 ## Technologies Used
    - React with JavaScript
    - Firebase
-   - Exercise DB
-   - Rapid API
+   - [Exercise DB](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb)
+   - [ouTube Search Results](https://rapidapi.com/marindelija/api/youtube-search-results/)
 
 ## Wireframe
    [https://github.gatech.edu/sshrestha48/fitness-app/tree/main/Documentation/wireframes](https://github.gatech.edu/sshrestha48/fitness-app/tree/main/Documentation/wireframes)
