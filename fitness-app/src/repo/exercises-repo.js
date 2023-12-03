@@ -4,7 +4,7 @@ import config from "../config.json";
 
 const headers = {
   method: "GET",
-  "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
+  "X-RapidAPI-Key": "103d906827msh837bbb3320d859cp1c2c7bjsn3507e1337653",
   "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
 };
 
